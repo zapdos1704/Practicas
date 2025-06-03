@@ -1,4 +1,4 @@
-package Compilador;
+package Practicas.Compilador;
 
 import java.util.ArrayList;
 import java.util.List;

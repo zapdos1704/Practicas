@@ -1,4 +1,4 @@
-package Compilador;
+package Practicas.Compilador;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -559,6 +559,7 @@ public class InterfazCompilador extends JFrame {
                     analizadorLexico.setCaretPosition(0);
                     actualizarStatus("Análisis léxico: " + numTokens + " tokens");
                 } catch (Exception e) {
+                	 
                 } finally {
                     mostrarProgreso(false);
                 }
@@ -598,6 +599,33 @@ public class InterfazCompilador extends JFrame {
                 }
                 
                 return resultado.toString();
+            }
+            protected void done() {
+                try {
+                    String resultado = get();
+                    analizadorSintactico.setText(resultado);
+                    analizadorSintactico.setCaretPosition(0);
+                    
+                    if (numErrores == 0) {
+                        actualizarStatus("✅ Análisis sintáctico completado sin errores");
+                    } else {
+                        actualizarStatus("❌ Análisis sintáctico: " + numErrores + " errores encontrados");
+                    }
+                    
+                } catch (Exception e) {
+                    // Manejar errores en el hilo principal
+                    String mensajeError = "Error inesperado durante el análisis sintáctico: " + e.getMessage();
+                    analizadorSintactico.setText("❌ " + mensajeError);
+                    actualizarStatus("❌ Error en análisis sintáctico");
+                    
+                    // Mostrar diálogo de error para casos críticos
+                    JOptionPane.showMessageDialog(InterfazCompilador.this, 
+                        mensajeError, 
+                        "Error de Análisis", 
+                        JOptionPane.ERROR_MESSAGE);
+                } finally {
+                    mostrarProgreso(false);
+                }
             }
             
         };

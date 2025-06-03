@@ -1,4 +1,4 @@
-package Compilador;
+package Practicas.Compilador;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class Sintactico {
     	    //                ID                    NUM             STRING          CHAR            BOOLEAN         +               -               *               /               <               >               <=              >=              ==              !=              &&              ||              !               =               (               )               {               }               ;               ,               :               beginProgram                 endProgram          for                       endFor          while           			endWhile        if              	endif           else            method          					endMethod       return          	def             int             		float           	double          		string          		boolean         		char            	   $
     		/*P    */{	"SALTAR", 				"SALTAR", 		   "SALTAR", 	   "SALTAR",        "SALTAR",    "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR",       "SALTAR",       "SALTAR",        "SALTAR",       "SALTAR",       "SALTAR",       "SALTAR",       "SALTAR",        "SALTAR",     "SALTAR",        "SALTAR",       "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR",       "SALTAR",        "SALTAR",       "SALTAR",   "beginProgram ID D S endProgram",    "SALTAR",        "SALTAR",                  "SALTAR",       "SALTAR",       		    "SALTAR",    "SALTAR",        	  "SALTAR",       "SALTAR",        "SALTAR",        					"SALTAR",      "SALTAR",     	  "SALTAR",        "SALTAR",        	 "SALTAR",        	   "SALTAR",      		   "SALTAR",        		"SALTAR",      		"SALTAR",           	"SACAR"},
     	    
-    	    /*D    */{  "SALTAR",               "SALTAR",          "SALTAR",       "SALTAR",        "SALTAR",    "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR", 		"SALTAR", 		"SALTAR",        "SALTAR", 		 "SALTAR",   	 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		  "SALTAR", 	"SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		"SALTAR", 		"SALTAR", 		"SALTAR", 		 "SALTAR", 			"SALTAR", 					  "SACAR", 		   "SALTAR", 				  "SALTAR", 	  "SALTAR", 				"SALTAR", 	 "SACAR", 		      "SALTAR", 	  "SALTAR", 	   "SALTAR", 							"SALTAR", 	   "SALTAR", 		  "SALTAR", 	   "TIPO ID = E ; D'", 	 "TIPO ID = E ; D'",   "TIPO ID = E ; D'", 	   "TIPO ID = E ; D'", 		"TIPO ID = E ; D'", "TIPO ID = E ; D'", 	"SACAR"},
+    	    /*D    */{  "SALTAR",                "SALTAR",          "SALTAR",       "SALTAR",        "SALTAR",    "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR", 		"SALTAR", 		"SALTAR",        "SALTAR", 		 "SALTAR",   	 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		  "SALTAR", 	"SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		"SALTAR", 		"SALTAR", 		"SALTAR", 		 "SALTAR", 			"SALTAR", 					  "SACAR", 		   "SALTAR", 				  "SALTAR", 	  "SALTAR", 				"SALTAR", 	 "SACAR", 		      "SALTAR", 	  "SALTAR", 	   "SALTAR", 							"SALTAR", 	   "SALTAR", 		  "SALTAR", 	   "TIPO ID = E ; D'", 	 "TIPO ID = E ; D'",   "TIPO ID = E ; D'", 	   "TIPO ID = E ; D'", 		"TIPO ID = E ; D'", "TIPO ID = E ; D'", 	"SACAR"},
     	       		 
     	    /*D'   */{  "SALTAR",               "SALTAR",          "SALTAR",       "SALTAR",        "SALTAR",    "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR", 		"SALTAR", 		"SALTAR",        "SALTAR", 		 "SALTAR",   	 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		  "SALTAR", 	"SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		"SALTAR", 		"SALTAR", 		"SALTAR", 		 "SALTAR", 			"SALTAR", 					  "SACAR", 		   "SALTAR", 				  "SALTAR", 	  "SALTAR", 				"SALTAR", 	 "SACAR",             "SALTAR", 	  "SALTAR", 	   "method ID L S endMethod D'", 	    "SALTAR", 	   "SALTAR", 		  "SALTAR", 	   "TIPO ID = E ; D'", 	 "TIPO ID = E ; D'",   "TIPO ID = E ; D'", 	   "TIPO ID = E ; D'", 		"TIPO ID = E ; D'", "TIPO ID = E ; D'", 	"SALTAR"},
     	    
@@ -49,7 +49,7 @@ public class Sintactico {
     	    
     	    /*L    */{"SALTAR",                 "SALTAR",          "SALTAR",       "SALTAR",        "SALTAR",    "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR", 		"SALTAR", 		"SALTAR",        "SALTAR", 		 "SALTAR",   	 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		  "SALTAR", 	"SALTAR", 		 "SALTAR", 		 "( L )", 		 "SACAR", 		 "SALTAR", 		"SALTAR", 		"SALTAR", 		"SALTAR", 		 "SALTAR", 			"SALTAR", 					  "SALTAR", 	   "SALTAR", 				  "SALTAR", 	  "SALTAR", 				"SALTAR", 	 "SALTAR",   		  "SALTAR", 	  "SALTAR", 	   "SALTAR", 							"SALTAR", 	   "SALTAR", 		  "SALTAR", 	   "TIPO ID L'", 	     "TIPO ID L'",   	   "TIPO ID L'", 		   "TIPO ID L'", 			"TIPO ID L'", 		"TIPO ID L'", 			"SALTAR"},
     	       		 
-    	    /*L'   */{"SALTAR",                 "SALTAR",          "SALTAR",       "SALTAR",        "SALTAR",    "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR", 		"SALTAR", 		"SALTAR",        "SALTAR", 		 "SALTAR",   	 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		  "SALTAR", 	"SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "e", 		 	 "SALTAR", 		"SALTAR", 		"SALTAR", 		", TIPO ID L'",  "SALTAR", 			"SALTAR", 					  "SALTAR", 	   "SALTAR", 				  "SALTAR", 	  "SALTAR", 				"SALTAR", 	 "SALTAR",   		  "SALTAR", 	  "SALTAR", 	   "SALTAR", 							"SALTAR", 	   "SALTAR", 		  "SALTAR", 	   "SALTAR", 			 "SALTAR",   		   "SALTAR", 			   "SALTAR", 				"SALTAR", 			"SALTAR", 				"SALTAR"},
+    	    /*L'   */{"SALTAR",                 "SALTAR",          "SALTAR",       "SALTAR",        "SALTAR",    "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR", 		"SALTAR", 		"SALTAR",        "SALTAR", 		 "SALTAR",   	 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		  "SALTAR", 	"SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		"SALTAR", 		"SALTAR", 		", TIPO ID L",  "SALTAR", 			"SALTAR", 					  "SALTAR", 	   "SALTAR", 				  "SALTAR", 	  "SALTAR", 				"SALTAR", 	 "SALTAR",   		  "SALTAR", 	  "SALTAR", 	   "SALTAR", 							"SALTAR", 	   "SALTAR", 		  "SALTAR", 	   "SALTAR", 			 "SALTAR",   		   "SALTAR", 			   "SALTAR", 				"SALTAR", 			"SALTAR", 				"SALTAR"},
     	    		 
     	    /*E    */{"T EL",                   "T EL",             "T EL",        "T EL",          "T EL",      "SALTAR",       "SALTAR",       "SALTAR",      "SALTAR", 		"SALTAR", 		"SALTAR",        "SALTAR", 		 "SALTAR",   	 "SALTAR", 		 "SALTAR", 		 "SALTAR", 		  "SALTAR", 	"! EL", 		 "SALTAR", 		 "( EL )", 		 "SALTAR", 		 "SALTAR", 		"SALTAR", 		"SALTAR", 		"SALTAR", 		 "SALTAR", 			"SALTAR", 					  "SALTAR", 	   "SALTAR", 				  "SALTAR", 	  "SALTAR", 				"SALTAR", 	 "SALTAR",   		  "SALTAR", 	  "SALTAR", 	   "SALTAR", 							"SALTAR", 	   "SALTAR", 		  "SALTAR", 	   "SALTAR", 			 "SALTAR",   		   "SALTAR", 			   "SALTAR", 				"SALTAR", 			"SALTAR", 				"SALTAR"},
     	      
@@ -188,7 +188,11 @@ public class Sintactico {
             case DELIMITADOR:
                 return token.getLexema();
             default:
-                return token.getLexema();
+            {
+            	errores.add("Error de simbolo: El simbolo "+token.getLexema()+" no es valido");
+            	return token.getLexema();
+            }
+                
         }
     }
     
@@ -196,9 +200,7 @@ public class Sintactico {
      * Verifica si un símbolo es terminal.
      */
     private boolean esTerminal(String simbolo) {
-    	if(!mapaTokens.containsKey(simbolo))
-    		errores.add("Error de simbolo, simbolo no es encontrado");
-		return true;
+    	return mapaTokens.containsKey(simbolo);
     }
     
     /**
