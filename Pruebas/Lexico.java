@@ -7,12 +7,11 @@ import java.util.List;
  * Analizador léxico para el lenguaje híbrido (Java + Pascal + Python)
  */
 public class Lexico {
-    
     // Tipo de token
     public enum TipoToken {
-        PALABRA_RESERVADA,
-        IDENTIFICADOR,
-        NUMERO,
+        PR,
+        ID,
+        NUM,
         OPERADOR,
         DELIMITADOR,
         CADENA,
@@ -36,7 +35,7 @@ public class Lexico {
         public TipoToken getTipo() {
             return tipo;
         }
-        
+        	
         public String getLexema() {
             return lexema;
         }
@@ -57,7 +56,7 @@ public class Lexico {
         "beginProgram", "endProgram",
         
         // Tipos de datos
-        "int", "float", "double", "string", "boolean", "char",
+        "int", "float", "double", "string", "boolean", "char","void",
         
         // Estructuras de control
         "for", "endFor", 
@@ -102,6 +101,20 @@ public class Lexico {
         
         for (int i = 0; i < caracteres.length; i++) {
             char c = caracteres[i];
+     
+            // Procesar números (incluyendo notación científica)
+            if (Character.isDigit(c) || (c == '.' && i + 1 < caracteres.length && Character.isDigit(caracteres[i + 1]))) {
+                if (lexema.length() > 0) {
+                    agregarToken(lexema.toString(), numeroLinea, tokens);
+                    lexema = new StringBuilder();
+                }
+                
+                // Procesar número completo (incluyendo notación científica)
+                String numero = procesarNumero(caracteres, i);
+                tokens.add(new Token(TipoToken.NUM, numero, numeroLinea));
+                i += numero.length() - 1; // Ajustar índice
+                continue;
+            }
             
             // Comprobar por comentarios de estilo //
             if (c == '/' && i + 1 < caracteres.length && caracteres[i + 1] == '/') {
@@ -227,25 +240,27 @@ public class Lexico {
         }
     }
     
+    
+    
     /**
      * Determina el tipo de token y lo añade a la lista.
      */
     private void agregarToken(String lexema, int numeroLinea, List<Token> tokens) {
         // Verificar si es una palabra reservada
         if (esPalabraReservada(lexema)) {
-            tokens.add(new Token(TipoToken.PALABRA_RESERVADA, lexema, numeroLinea));
+            tokens.add(new Token(TipoToken.PR, lexema, numeroLinea));
             return;
         }
         
         // Verificar si es un número
         if (esNumero(lexema)) {
-            tokens.add(new Token(TipoToken.NUMERO, lexema, numeroLinea));
+            tokens.add(new Token(TipoToken.NUM, lexema, numeroLinea));
             return;
         }
         
         // Verificar si es un identificador
         if (esIdentificador(lexema)) {
-            tokens.add(new Token(TipoToken.IDENTIFICADOR, lexema, numeroLinea));
+            tokens.add(new Token(TipoToken.ID, lexema, numeroLinea));
             return;
         }
         
@@ -266,15 +281,62 @@ public class Lexico {
     }
     
     /**
+     * Procesa un número completo incluyendo notación científica
+     */
+    private String procesarNumero(char[] caracteres, int inicio) {
+        StringBuilder numero = new StringBuilder();
+        int i = inicio;
+        
+        // Parte entera
+        while (i < caracteres.length && Character.isDigit(caracteres[i])) {
+            numero.append(caracteres[i]);
+            i++;
+        }
+        
+        // Parte decimal
+        if (i < caracteres.length && caracteres[i] == '.') {
+            numero.append(caracteres[i]);
+            i++;
+            while (i < caracteres.length && Character.isDigit(caracteres[i])) {
+                numero.append(caracteres[i]);
+                i++;
+            }
+        }
+        
+        // Parte exponencial (notación científica)
+        if (i < caracteres.length && (caracteres[i] == 'e' || caracteres[i] == 'E')) {
+            numero.append(caracteres[i]);
+            i++;
+            
+            // Signo opcional del exponente
+            if (i < caracteres.length && (caracteres[i] == '+' || caracteres[i] == '-')) {
+                numero.append(caracteres[i]);
+                i++;
+            }
+            
+            // Dígitos del exponente
+            while (i < caracteres.length && Character.isDigit(caracteres[i])) {
+                numero.append(caracteres[i]);
+                i++;
+            }
+        }
+        
+        return numero.toString();
+    }
+    
+    /**
      * Verifica si el lexema es un número.
      */
     private boolean esNumero(String lexema) {
-        try {
-            Double.parseDouble(lexema);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+        if (lexema.matches("^\\d+(\\.\\d+)?([eE][+-]?\\d+)?$")) {
+            try {
+                Double.parseDouble(lexema);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
         }
+        return false;
     }
     
     /**
@@ -337,12 +399,9 @@ public class Lexico {
                 if (lineaActual != 1) {
                     resultado.append("\n");
                 }
-                resultado.append("Línea ").append(lineaActual).append(": ");
-            } else {
-                resultado.append(" | ");
-            }
-            
-            resultado.append(obtenerNombreCorto(token.getTipo()).equals("PR")?token.getLexema():token.getTipo());
+            } 
+            resultado.append(obtenerNombreCorto(token.getTipo()).equals("PR") || obtenerNombreCorto(token.getTipo()).equals("OP")|| obtenerNombreCorto(token.getTipo()).equals("DELIM") 
+            		?" "+token.getLexema():" "+obtenerNombreCorto(token.getTipo()));
         }
         
         return resultado.toString();
@@ -353,9 +412,9 @@ public class Lexico {
      */
     private String obtenerNombreCorto(TipoToken tipo) {
         switch (tipo) {
-            case PALABRA_RESERVADA: return "PR";
-            case IDENTIFICADOR: return "ID";
-            case NUMERO: return "NUM";
+            case PR: return "PR";
+            case ID: return "ID";
+            case NUM: return "NUM";
             case OPERADOR: return "OP";
             case DELIMITADOR: return "DELIM";
             case CADENA: return "STR";
