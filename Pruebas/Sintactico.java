@@ -282,4 +282,29 @@ public class Sintactico {
         
         return info.toString();
     }
+    
+    
+    public void ingresarSimbolos() {
+    	TablaDeSimbolos tabla= new TablaDeSimbolos();
+    	int i=0;
+    	if(errores.isEmpty())
+    	while(i < tokens.size()) {
+    		String lexema= tokens.get(i).getLexema();
+    		switch(lexema)
+    		{
+    		case "beginProgram":
+    			
+    		case "method":
+    		case "if":
+    		case "int":
+    		case "float":
+    		case "void":
+    		case "double":
+    		case "char":
+    		case "string":
+    		case "boolean":
+    		default:
+    		}
+    	}
+    }
 }

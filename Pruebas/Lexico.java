@@ -101,7 +101,7 @@ public class Lexico {
         
         for (int i = 0; i < caracteres.length; i++) {
             char c = caracteres[i];
-     
+            
             // Procesar números (incluyendo notación científica)
             if (Character.isDigit(c) || (c == '.' && i + 1 < caracteres.length && Character.isDigit(caracteres[i + 1]))) {
                 if (lexema.length() > 0) {
@@ -233,7 +233,6 @@ public class Lexico {
             // Acumular caracteres para formar lexemas
             lexema.append(c);
         }
-        
         // Agregar el último token si existe
         if (lexema.length() > 0) {
             agregarToken(lexema.toString(), numeroLinea, tokens);
