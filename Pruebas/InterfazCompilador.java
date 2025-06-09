@@ -5,6 +5,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,15 +15,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class InterfazCompilador extends JFrame {
-
+	private String pilaV="";
     // Componentes principales
     private JTextArea editorCodigo;
     private JTextArea analizadorLexico;
     private JTextArea analizadorSintactico;
-    private JTextArea consolaSalida;
     private JLabel nombreArchivo;
     private JTextArea numerosLinea;
     private JLabel statusBar;
@@ -33,6 +39,7 @@ public class InterfazCompilador extends JFrame {
     // Analizadores
     private Lexico analizador = new Lexico();
     private Sintactico analizadorSint = new Sintactico();
+    private TablaDeSimbolos tablaSimbolos = new TablaDeSimbolos();
     
     // Timer para análisis
     private Timer timerSintaxis;
@@ -53,7 +60,7 @@ public class InterfazCompilador extends JFrame {
     // Tipografías optimizadas
     private static final Font FONT_EDITOR = new Font("JetBrains Mono", Font.PLAIN, 14);
     private static final Font FONT_UI = new Font("Inter", Font.PLAIN, 13);
-    private static final Font FONT_UI_BOLD = new Font("Inter", Font.BOLD, 13);
+    private static final Font FONT_UI_BOLD = new Font("Inter", Font.BOLD, 14);
     private static final Font FONT_TITLE = new Font("Inter", Font.BOLD, 16);
 
     public InterfazCompilador() {
@@ -171,10 +178,14 @@ public class InterfazCompilador extends JFrame {
         JButton btnLexico = crearBotonCompilacion("Léxico", ACCENT_BLUE, e -> realizarAnalisisLexico());
         JButton btnSintactico = crearBotonCompilacion("Sintáctico", ACCENT_GREEN, e -> realizarAnalisisSintactico());
         JButton btnCompilar = crearBotonCompilacion("Compilar", ACCENT_RED, e -> compilarTodo());
+        JButton btnErrores = crearBotonCompilacion("Ver Errores", new Color(255, 159, 10), e -> mostrarVentanaErrores());
+        JButton btnTablaSimbolos = crearBotonCompilacion("Tabla Símbolos", new Color(138, 43, 226), e -> mostrarTablaSimbolos());
         
         panel.add(btnLexico);
         panel.add(btnSintactico);
         panel.add(btnCompilar);
+        panel.add(btnErrores);
+        panel.add(btnTablaSimbolos);
         
         return panel;
     }
@@ -369,6 +380,7 @@ public class InterfazCompilador extends JFrame {
         JPanel panelSintactico = new JPanel(new BorderLayout());
         panelSintactico.setBackground(CARD_BG);
         panelSintactico.setBorder(BorderFactory.createLineBorder(BORDER_LIGHT, 1));
+        panelSintactico.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
         
         JPanel headerSintactico = new JPanel(new BorderLayout());
         headerSintactico.setBackground(HOVER_BG);
@@ -378,7 +390,8 @@ public class InterfazCompilador extends JFrame {
         labelSintactico.setForeground(TEXT_PRIMARY);
         headerSintactico.add(labelSintactico, BorderLayout.WEST);
         
-        analizadorSintactico = crearAreaResultado();
+        analizadorSintactico = crearAreaResultado2();
+        
         JScrollPane scrollSintactico = new JScrollPane(analizadorSintactico);
         scrollSintactico.setBorder(null);
         
@@ -401,6 +414,217 @@ public class InterfazCompilador extends JFrame {
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
         return area;
+    }
+    
+    private JTextArea crearAreaResultado2() {
+        JTextArea area = new JTextArea();
+        area.setEditable(false);
+        area.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
+        area.setBackground(CARD_BG);
+        area.setForeground(TEXT_PRIMARY);
+        area.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        return area;
+    }
+    
+    private void mostrarVentanaErrores() {
+    	List<Lexico.Token> tokens = analizador.analizar(editorCodigo.getText());
+        List<String> errores = analizadorSint.analizar(tokens);
+        
+        
+        JDialog ventanaErrores = new JDialog(this, "Errores Sintácticos", true);
+        ventanaErrores.setSize(600, 400);
+        ventanaErrores.setLocationRelativeTo(this);
+        
+        // Panel principal
+        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        panelPrincipal.setBackground(CARD_BG);
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        
+        // Header con título y contador
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(CARD_BG);
+        
+        JLabel tituloLabel = new JLabel("🔍 Errores Sintácticos Detectados");
+        tituloLabel.setFont(FONT_TITLE);
+        tituloLabel.setForeground(TEXT_PRIMARY);
+        
+        JLabel contadorLabel = new JLabel("Total: " + errores.size() + " errores");
+        contadorLabel.setFont(FONT_UI);
+        contadorLabel.setForeground(TEXT_SECONDARY);
+        
+        headerPanel.add(tituloLabel, BorderLayout.WEST);
+        headerPanel.add(contadorLabel, BorderLayout.EAST);
+        
+        // Área de texto para mostrar errores
+        JTextArea areaErrores = new JTextArea();
+        areaErrores.setEditable(false);
+        areaErrores.setFont(FONT_EDITOR);
+        areaErrores.setBackground(CARD_BG);
+        areaErrores.setForeground(ACCENT_RED);
+        areaErrores.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        areaErrores.setLineWrap(true);
+        areaErrores.setWrapStyleWord(true);
+       
+        // Llenar con errores o mensaje de éxito
+        if (errores.isEmpty()) {
+            areaErrores.setText("✅ ¡Excelente! No se encontraron errores sintácticos.\n\nEl código analizado cumple con todas las reglas gramaticales del lenguaje híbrido.");
+            areaErrores.setForeground(ACCENT_GREEN);
+        } else {
+            StringBuilder contenido = new StringBuilder();
+            for (int i = 0; i < errores.size(); i++) {
+            	if(i>0 && !errores.get(i).equals(errores.get(i-1)) && errores.get(i).indexOf("lexico")!=0)
+            		contenido.append(String.format("%d. %s\n\n", i + 1, errores.get(i)));
+            	if(i==0)
+            		contenido.append(String.format("%d. %s\n\n", i + 1, errores.get(i)));
+            	
+            }
+            areaErrores.setText(contenido.toString());
+        }
+        
+        JScrollPane scrollErrores = new JScrollPane(areaErrores);
+        scrollErrores.setBorder(BorderFactory.createLineBorder(BORDER_LIGHT, 1));
+        
+        // Panel de botones
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        panelBotones.setBackground(CARD_BG);
+        
+        JButton btnCerrar = new JButton("Cerrar");
+        btnCerrar.setFont(FONT_UI_BOLD);
+        btnCerrar.setForeground(Color.WHITE);
+        btnCerrar.setBackground(ACCENT_BLUE);
+        btnCerrar.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        btnCerrar.setFocusPainted(false);
+        btnCerrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnCerrar.addActionListener(e -> ventanaErrores.dispose());
+        
+        // Efecto hover para botón cerrar
+        btnCerrar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnCerrar.setBackground(ACCENT_BLUE.darker());
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnCerrar.setBackground(ACCENT_BLUE);
+            }
+        });
+        
+        panelBotones.add(btnCerrar);
+        
+        // Ensamblar ventana
+        panelPrincipal.add(headerPanel, BorderLayout.NORTH);
+        panelPrincipal.add(scrollErrores, BorderLayout.CENTER);
+        panelPrincipal.add(panelBotones, BorderLayout.SOUTH);
+        
+        ventanaErrores.add(panelPrincipal);
+        ventanaErrores.setVisible(true);
+    }
+    private JPanel crearPanelFiltro(DefaultTableModel modelo, JTable tabla) {
+        JPanel panelFiltro = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelFiltro.setBackground(CARD_BG);
+        
+        JLabel lblFiltro = new JLabel("Filtrar:");
+        lblFiltro.setFont(FONT_UI);
+        
+        JTextField txtFiltro = new JTextField(20);
+        txtFiltro.setFont(FONT_UI);
+        
+        txtFiltro.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) { filtrar(); }
+            @Override
+            public void removeUpdate(DocumentEvent e) { filtrar(); }
+            @Override
+            public void changedUpdate(DocumentEvent e) { filtrar(); }
+            
+            private void filtrar() {
+                String texto = txtFiltro.getText().toLowerCase();
+                TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+                tabla.setRowSorter(sorter);
+                
+                if (texto.trim().length() == 0) {
+                    sorter.setRowFilter(null);
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+                }
+            }
+        });
+        
+        panelFiltro.add(lblFiltro);
+        panelFiltro.add(txtFiltro);
+        return panelFiltro;
+    }
+    
+    private void mostrarTablaSimbolos() {
+        if (editorCodigo.getText().trim().isEmpty()) {
+            mostrarAdvertencia("No hay código para analizar");
+            return;
+        }
+
+        // Limpiar la tabla de símbolos existente
+        tablaSimbolos.limpiar();
+
+        // Realizar análisis léxico
+        List<Lexico.Token> tokens = analizador.analizar(editorCodigo.getText());
+        System.out.println("Tokens encontrados: " + tokens.size());
+
+        // Usar el analizador sintáctico para obtener el texto formateado
+        Sintactico sintactico = new Sintactico();
+        String tablaFormateada = sintactico.obtenerTablaSimbolosFormateada(tokens, tablaSimbolos);
+
+        // Crear diálogo para mostrar el texto
+        JDialog dialog = new JDialog(this, "Tabla de Símbolos", true);
+        dialog.setSize(1000, 700);
+        dialog.setLocationRelativeTo(this);
+
+        JPanel panelPrincipal = new JPanel(new BorderLayout());
+        panelPrincipal.setBackground(CARD_BG);
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        // Crear JTextArea para mostrar el texto
+        JTextArea textArea = new JTextArea(tablaFormateada);
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12)); // Fuente monoespaciada para alineación
+        textArea.setBackground(CARD_BG);
+        textArea.setForeground(TEXT_PRIMARY);
+        textArea.setCaretPosition(0); // Empezar desde el inicio
+
+        // Scroll pane para el texto
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setBorder(BorderFactory.createLineBorder(BORDER_LIGHT, 1));
+
+        // Header
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(CARD_BG);
+        JLabel titulo = new JLabel("🗂️ Tabla de Símbolos del Compilador");
+        titulo.setFont(FONT_TITLE);
+        titulo.setForeground(TEXT_PRIMARY);
+        headerPanel.add(titulo, BorderLayout.WEST);
+
+        // Botón de cierre
+        JButton btnCerrar = new JButton("Cerrar");
+        btnCerrar.setFont(FONT_UI_BOLD);
+        btnCerrar.setForeground(Color.WHITE);
+        btnCerrar.setBackground(ACCENT_BLUE);
+        btnCerrar.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        btnCerrar.setFocusPainted(false);
+        btnCerrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnCerrar.addActionListener(e -> dialog.dispose());
+
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBotones.setBackground(CARD_BG);
+        panelBotones.add(btnCerrar);
+
+        // Ensamblar componentes
+        panelPrincipal.add(headerPanel, BorderLayout.NORTH);
+        panelPrincipal.add(scrollPane, BorderLayout.CENTER);
+        panelPrincipal.add(panelBotones, BorderLayout.SOUTH);
+
+        dialog.add(panelPrincipal);
+        dialog.setVisible(true);
     }
     
     private JPanel crearFooter() {
@@ -532,9 +756,11 @@ public class InterfazCompilador extends JFrame {
         worker.execute();
     }
     
+
+    
     // Métodos de compilación mejorados
     private void realizarAnalisisLexico() {
-        if (editorCodigo.getText().trim().isEmpty()) {
+    	if (editorCodigo.getText().trim().isEmpty()) {
             mostrarAdvertencia("No hay código para analizar");
             return;
         }
@@ -545,8 +771,12 @@ public class InterfazCompilador extends JFrame {
             
             @Override
             protected String doInBackground() throws Exception {
+                // Limpiar tabla anterior
+                tablaSimbolos.limpiar();
+                
                 List<Lexico.Token> tokens = analizador.analizar(editorCodigo.getText());
                 numTokens = tokens.size();
+                
                 return "📊 ANÁLISIS LÉXICO\n" + "═".repeat(60) + "\n\n" + 
                        analizador.formatearTokens(tokens);
             }
@@ -559,7 +789,9 @@ public class InterfazCompilador extends JFrame {
                     analizadorLexico.setCaretPosition(0);
                     actualizarStatus("Análisis léxico: " + numTokens + " tokens");
                 } catch (Exception e) {
-                	 
+                    e.printStackTrace();
+                    analizadorLexico.setText("❌ Error en análisis léxico: " + e.getMessage());
+                    actualizarStatus("❌ Error en análisis léxico");
                 } finally {
                     mostrarProgreso(false);
                 }
@@ -576,26 +808,20 @@ public class InterfazCompilador extends JFrame {
         
         mostrarProgreso(true);
         SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-            private int numErrores;
             
             @Override
             protected String doInBackground() throws Exception {
-                List<Lexico.Token> tokens = analizador.analizar(editorCodigo.getText());
+            	List<Lexico.Token> tokens = analizador.analizar(editorCodigo.getText());
                 List<String> errores = analizadorSint.analizar(tokens);
-                numErrores = errores.size();
-                
+                pilaV=analizadorSint.getPila();
                 StringBuilder resultado = new StringBuilder();
                 resultado.append("🔍 ANÁLISIS SINTÁCTICO\n");
                 resultado.append("═".repeat(60)).append("\n\n");
-                
-                if (errores.isEmpty()) {
-                    resultado.append("✅ Sin errores sintácticos\n");
-                    resultado.append("🎉 El programa es válido según la gramática LL(1)\n");
+                if (!pilaV.isEmpty()) {
+                    resultado.append("✅ Estado de la pila\n");
+                    resultado.append(pilaV);
                 } else {
-                    resultado.append("❌ Errores encontrados: ").append(errores.size()).append("\n\n");
-                    for (int i = 0; i < errores.size(); i++) {
-                        resultado.append((i + 1)).append(". ").append(errores.get(i)).append("\n");
-                    }
+                    resultado.append("✕ Sin estado de la pila\n");
                 }
                 
                 return resultado.toString();
@@ -605,12 +831,6 @@ public class InterfazCompilador extends JFrame {
                     String resultado = get();
                     analizadorSintactico.setText(resultado);
                     analizadorSintactico.setCaretPosition(0);
-                    
-                    if (numErrores == 0) {
-                        actualizarStatus("✅ Análisis sintáctico completado sin errores");
-                    } else {
-                        actualizarStatus("❌ Análisis sintáctico: " + numErrores + " errores encontrados");
-                    }
                     
                 } catch (Exception e) {
                     // Manejar errores en el hilo principal

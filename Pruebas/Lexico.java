@@ -7,7 +7,8 @@ import java.util.List;
  * Analizador léxico para el lenguaje híbrido (Java + Pascal + Python)
  */
 public class Lexico {
-    // Tipo de token
+	private List<String> erroreslex;
+    // Tipo de tokn
     public enum TipoToken {
         PR,
         ID,
@@ -53,7 +54,7 @@ public class Lexico {
     // Palabras reservadas del lenguaje híbrido
     private static final String[] PALABRAS_RESERVADAS = {
         // Estructura del programa
-        "beginProgram", "endProgram",
+        "Program", "endProgram",
         
         // Tipos de datos
         "int", "float", "double", "string", "boolean", "char","void",
@@ -77,7 +78,8 @@ public class Lexico {
     public List<Token> analizar(String codigo) {
         List<Token> tokens = new ArrayList<>();
         String[] lineas = codigo.split("\n");
-        
+        this.erroreslex = new ArrayList<>();
+        erroreslex.clear();
         for (int numLinea = 0; numLinea < lineas.length; numLinea++) {
             String linea = lineas[numLinea];
             analizarLinea(linea, numLinea + 1, tokens);
@@ -92,6 +94,7 @@ public class Lexico {
     private void analizarLinea(String linea, int numeroLinea, List<Token> tokens) {
         StringBuilder lexema = new StringBuilder();
         char[] caracteres = linea.toCharArray();
+        int x=0;
         
         // Ignorar líneas de comentario completas
         if (linea.trim().startsWith("//") || linea.trim().startsWith("#")) {
@@ -111,7 +114,15 @@ public class Lexico {
                 
                 // Procesar número completo (incluyendo notación científica)
                 String numero = procesarNumero(caracteres, i);
-                tokens.add(new Token(TipoToken.NUM, numero, numeroLinea));
+                char car= numero.charAt(numero.length()-1);
+                numero=numero.replace("r", "");
+                if(car!='r')
+                	tokens.add(new Token(TipoToken.NUM, numero, numeroLinea));
+                else {
+                	erroreslex.add("Error lexico en linea "+numeroLinea+": numero con formato incorrecto");
+                	tokens.add(new Token(TipoToken.DESCONOCIDO, numero, numeroLinea));
+                }
+                	
                 i += numero.length() - 1; // Ajustar índice
                 continue;
             }
@@ -181,7 +192,12 @@ public class Lexico {
                 cadena.append(c);
                 
                 i++;
-                while (i < caracteres.length && caracteres[i] != '"') {
+                while (i < caracteres.length) {
+                	if(caracteres[i] == '"')
+                    {
+                    	cadena.append(caracteres[i]);
+                    	break;
+                    }
                     if (caracteres[i] == '\\' && i + 1 < caracteres.length) {
                         cadena.append(caracteres[i]);
                         i++;
@@ -191,12 +207,16 @@ public class Lexico {
                     }
                     i++;
                 }
-                
-                if (i < caracteres.length) {
-                    cadena.append(caracteres[i]);
+                if(cadena.length()>1 && (cadena.toString().charAt(cadena.length()-1)=='"' && cadena.toString().charAt(0)=='"')) {
+                	if(i < caracteres.length) {
+                        cadena.append(caracteres[i]);
+                    }
+                	tokens.add(new Token(TipoToken.CADENA, cadena.toString(), numeroLinea));
                 }
-                
-                tokens.add(new Token(TipoToken.CADENA, cadena.toString(), numeroLinea));
+                else {
+                	erroreslex.add("Error lexico en linea "+numeroLinea+": falta de comillas de cierre");
+                	tokens.add(new Token(TipoToken.DESCONOCIDO, cadena.toString(), numeroLinea));
+                }
                 continue;
             }
             
@@ -211,7 +231,12 @@ public class Lexico {
                 caracter.append(c);
                 
                 i++;
-                while (i < caracteres.length && caracteres[i] != '\'') {
+                while (i < caracteres.length) {
+                	if(caracteres[i] == '\'')
+                    {
+                    	caracter.append(caracteres[i]);
+                    	break;
+                    }
                     if (caracteres[i] == '\\' && i + 1 < caracteres.length) {
                         caracter.append(caracteres[i]);
                         i++;
@@ -222,11 +247,22 @@ public class Lexico {
                     i++;
                 }
                 
-                if (i < caracteres.length) {
-                    caracter.append(caracteres[i]);
-                }
-                
-                tokens.add(new Token(TipoToken.CARACTER, caracter.toString(), numeroLinea));
+                if(caracter.length()==3) {
+                	 if((caracter.toString().charAt(2)=='\'' && caracter.toString().charAt(0)=='\'')) {
+                     	if (i < caracteres.length) {
+                     		caracter.append(caracteres[i]);
+                         }
+                     	tokens.add(new Token(TipoToken.CARACTER, caracter.toString(), numeroLinea));
+                     }
+                	 else {
+                      	erroreslex.add("Error lexico en linea "+numeroLinea+": falta de comillas simples de cierre");
+                      	tokens.add(new Token(TipoToken.DESCONOCIDO, caracter.toString(), numeroLinea));
+                      }
+                }else {
+                 	erroreslex.add("Error lexico en linea "+numeroLinea+": falta de comillas simples de cierre");
+                 	tokens.add(new Token(TipoToken.DESCONOCIDO, caracter.toString(), numeroLinea));
+                 }
+               
                 continue;
             }
             
@@ -251,12 +287,6 @@ public class Lexico {
             return;
         }
         
-        // Verificar si es un número
-        if (esNumero(lexema)) {
-            tokens.add(new Token(TipoToken.NUM, lexema, numeroLinea));
-            return;
-        }
-        
         // Verificar si es un identificador
         if (esIdentificador(lexema)) {
             tokens.add(new Token(TipoToken.ID, lexema, numeroLinea));
@@ -264,6 +294,7 @@ public class Lexico {
         }
         
         // Si no es ninguno de los anteriores, es un token desconocido
+        erroreslex.add("Error lexico en linea "+numeroLinea+": token desconocido verificar estructura");
         tokens.add(new Token(TipoToken.DESCONOCIDO, lexema, numeroLinea));
     }
     
@@ -319,24 +350,12 @@ public class Lexico {
                 i++;
             }
         }
-        
-        return numero.toString();
+        if(numero.toString().matches("^0|[+-]?(?:(?:[1-9]\\d*)(?:\\.\\d*[1-9])?|0\\.\\d*[1-9])(e[+-]?\\d+)?$"))
+        	return numero.toString();
+        else
+        	return numero.toString()+"r";
     }
     
-    /**
-     * Verifica si el lexema es un número.
-     */
-    private boolean esNumero(String lexema) {
-        if (lexema.matches("^\\d+(\\.\\d+)?([eE][+-]?\\d+)?$")) {
-            try {
-                Double.parseDouble(lexema);
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-        return false;
-    }
     
     /**
      * Verifica si el lexema es un identificador válido.
@@ -422,5 +441,9 @@ public class Lexico {
             case DESCONOCIDO: return "DESC";
             default: return tipo.toString();
         }
+    }
+    
+    public String getErrores(int i) {
+    	return erroreslex.get(i);
     }
 }
