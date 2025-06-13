@@ -1,0 +1,14 @@
+//Usar la base de datos
+use("northwind-store")
+
+db.products.find()
+
+//
+use("northwind-store")
+
+//Consultar registros
+db.products.find(
+    { "Categories.CategoryName": "Condiments" },
+    { "SupplierID": 1, "CompanyName": 1, "_id": 0 }
+)
+

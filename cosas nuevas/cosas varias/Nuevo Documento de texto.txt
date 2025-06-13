@@ -1,0 +1,16 @@
+que es, características y como se aplica, ejemplo
+
+Realiza los siguientes acls para una casa ubicada en el residencial San Miguel
+1. El usuario Admin requiere hacer pub/sub en todos los tópicos
+2. El usuario San Miguel, realiza pub/sub en su propio topico, usuario, y los subyacentes.
+3. El usuario CasaSM1 publica solo con su usuario y su id.
+4. El usuario CasaSM1PA se suscribe solo a la planta alta de el mismo, 
+5. el usuario invitado puede acceder a visualizar los datos de todo el fraccionamiento
+
+Parcela
+Dueño
+parcela
+sembradío
+encargado
+humedad, ph y temperatura
+10 sembradios

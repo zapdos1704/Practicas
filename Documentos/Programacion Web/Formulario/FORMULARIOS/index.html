@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            margin: 20px 0;
+        }
+
+        a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: blue;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        // Cargar el menú de navegación
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('nav.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('nav-placeholder').innerHTML = data;
+                });
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Navegador de formularios</h1>
+    <div id="nav-placeholder"></div>
+</body>
+
+</html>

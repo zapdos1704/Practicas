@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de personas</title>
+    <!-- Ruta correcta al archivo CSS -->
+    <link rel="stylesheet" href="../ProyCVS/CSS/style.css">
+
+    <!-- Primero cargamos el script principal que contiene la inicialización -->
+    <script type="module" src="../ProyCVS/JS/main.js"></script>
+</head>
+
+<body>
+    <h2>Formulario de registro de personas</h2>
+    <form id="personForm">
+        <label for="clave">Clave:</label><br>
+        <input type="text" id="clave" required><br>
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" required><br>
+        <label for="fechaNac">Fecha de nacimiento:</label><br>
+        <input type="date" id="fechaNac" required><br>
+        <label for="edad">Edad:</label><br>
+        <input type="number" id="edad" required><br>
+        <button type="submit" id="submitButton">Agregar persona</button>
+        <button type="button" id="cancelButton" style="display: none;">Cancelar modificación</button>
+    </form>
+
+    <h2>Personas registradas</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Clave</th>
+                <th>Nombre</th>
+                <th>Fecha de nacimiento</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="personTableBody"></tbody>
+    </table>
+
+    <button id="saveCsvButton">Guardar en CSV</button>
+    <input type="file" id="csvFileInput" accept=".csv" style="display: inline;">
+    <button id="loadCsvButton">Cargar desde CSV</button>
+
+    <!-- Cargar los scripts de Model, View y Controller -->
+    <script type="module" src="../ProyCVS/JS/Models/model.js"></script>
+    <script type="module" src="../ProyCVS/JS/Views/view.js"></script>
+    <script type="module" src="../ProyCVS/JS/Controllers/controller.js"></script>
+</body>
+
+</html>

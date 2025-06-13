@@ -1,0 +1,70 @@
+{
+  "dulces": [
+    {
+      "id": "1b57",
+      "nom": "123",
+      "us": "123",
+      "email": "123",
+      "tel": "123",
+      "con": "123"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "4318",
+      "nom": "dsadas",
+      "us": "dsadas",
+      "email": "asdsad",
+      "tel": "321321321",
+      "con": "12345678.abc"
+    },
+    {
+      "id": "0535",
+      "nom": "dsadas",
+      "us": "dsadas",
+      "email": "asdsad",
+      "tel": "321321321",
+      "con": "12345678.abc"
+    },
+    {
+      "id": "f700",
+      "nom": "dsadas",
+      "us": "dsadas",
+      "email": "asdsad",
+      "tel": "321321321",
+      "con": "12345678.abc"
+    },
+    {
+      "id": "0831",
+      "nom": "dsadas",
+      "us": "dsadas",
+      "email": "asdsad",
+      "tel": "321321321",
+      "con": "12345678.abc"
+    },
+    {
+      "id": "a8ee",
+      "nom": "dda",
+      "us": "dasdadasdasdasdasd",
+      "email": "adadasd",
+      "tel": "31323213",
+      "con": "123"
+    },
+    {
+      "id": "7ff9",
+      "nom": "dda",
+      "us": "dasdadasdasdasdasd",
+      "email": "adadasd",
+      "tel": "31323213",
+      "con": "123"
+    },
+    {
+      "id": "c3ff",
+      "nom": "dda",
+      "us": "dasdadasdasdasdasd",
+      "email": "adadasd",
+      "tel": "31323213",
+      "con": "123"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+//Usar la base de datos
+use("northwind-store")
+
+//Insertar el documento en la Coleccion Usuarios
+db.usuarios.insertOne({
+    email: 'ed@gmail.com',
+    contraseña: '12345',
+    rol: 'Guest',
+    fecha_creacion: new Date(),
+    edad: 18,
+    estado: true
+})

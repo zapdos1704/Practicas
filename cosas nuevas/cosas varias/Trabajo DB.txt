@@ -1,0 +1,93 @@
+select * from proveedores
+select * from compras
+select * from materias primas
+select * from elaboracion
+select * from fabricas
+select * from repartos
+select * from trabajadores
+select * from sucursales
+select * from registros
+select * from pedidos
+select * from usuarios
+select * from ventas
+select * from dulces
+select * from registros
+select * from compras where cantidad >100 and where id_proveedor = 10
+select nombre,telefono from proveedores where id_proveedor in(select id_proveedor from compras where id_mp in(select id_mp from materias primas where nombre = "Coco"))
+select * from compras where fecha="2020-12-1"
+select * from materias primas where tipo="Solido"
+select * from proveedores where direccion ="Av. Central #123, Zamora"
+select nombre from proveedores where direccion = "Av. Insurgentes #303, CDMX"
+select nombre, direccion from proveedores where telefono ="3551234567"
+select direccion from proveedores where nombre ="La Granja S.A."
+select nombre from proveedores where rfc="DSL7654321G"
+select * from proveedores where id_proveedor ="1"
+select * from materias primas where tipo="fruta"
+select * from materias primas where nombre="Azúcar"
+select * from materias primas where existencia=500
+select nombre from materias primas where existencia=500
+select nombre, existencia from materias primas where tipo="Líquido"
+select * from elaboración where cantidad >400
+select * from elaboración where cantidad >= 250 or cantidad <=350
+select cantidad from elaboración where id_mp =2
+select cantidad from elaboración where id_fabrica=2
+select estado from fabricas where id_fabrica in(select id_fabrica from elaboración where id_fabrica=2)
+select * from fabricas where id_fabrica in(select id_fabrica from elaboración order by cantidad limit 1)
+select * from fabricas where cp="59655"
+select * from fabricas where estado="Michoacan"
+select * from fabricas where municipio="Zamora"
+select * from repartos where cantidad=200
+select * from repartos where id_fabrica=2
+select * from repartos where id_sucursal in(select id_sucursal from sucursales where estado="Michoacan")
+select * from trabajadores where nombres="Ricardo"
+select * from trabajadores where rfc="FESA%"
+select * from trabajadores where tipo="Sucursal"
+select * from trabajadores where fecha_ingreso  between "2020-1-1" and "2020-12-31"
+select * from sucursales where cp="59655"
+select * from usuarios where email="jose%"
+select * from w
+
+
+
+Mostrar compras de materias primas
+ver cuanto fue en total de compras en um año
+ver cuales son los proveedores que mas nos venden
+cual es el producto que mas se necesita
+cuantos es stock mínimo antes de comprar
+cuales son los estaodos al que mas le compramos
+en que fechas se compran mas del material que compramos
+cual es la cantidad de producto que compramos en un mes
+cuanto nos cuesta comprar el producto que mas usamos
+
+Mostrar elaboración y repartición de los productos
+que producto se produce en que fabrica y en que cantidad
+en donde tenemos mas fabricas 
+cuantos trabajadores tenemos en todas las fabricas
+cuanto nos cuesta mantener a los empleados
+cuantos repartos hacemos en una semana
+de que fabrica salen mas repartos
+a que sucursal se le surtio mas en una semana
+cuantos trabajadores tenemos en cada una de las sucursales
+cuantos repartidores tenemos
+cuantos trabajadores tenemos en las fabricas
+que fabrica tiene mas empleados
+donde tenemos mas sucursales
+
+Mostrar pedidos y ventas dirigido a la interfaz de usuario
+cuantos pedidos por usuario tienen
+cuanto cuesta cada pedido
+ventas por semana de los dulces
+cual dukce se vende mas 
+el dulce que mas rápido se acaba
+el dulce que mas hay en cada sucursal
+cuantos usuarios hacen pedidos a una sucursal
+cuantos usuarios hacen compras a las sucursales
+que sucursal recibe mas pedidos
+cual es el usuario que mas compra
+cual es el ususario que mas hace pedidos
+cuanto generamos por el dulce que mas se vende
+que tipo de dulce se vende mas
+
+
+
+

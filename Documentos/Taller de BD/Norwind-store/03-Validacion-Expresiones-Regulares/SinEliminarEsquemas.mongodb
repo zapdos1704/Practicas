@@ -1,0 +1,42 @@
+//usar base de datos
+use("northwind-store")
+
+//Mostrar el esquema de las colecciones
+db.getCollectionInfos()
+
+// Modificar el esquema de usuarios
+db.runCommand({
+    collMod: 'usuarios',
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            required: ['email', 'contraseña'], 
+            properties: {
+                email: {
+                    bsonType: 'string',
+                    description: 'Correo electrónico de usuario'
+                },
+                contraseña: {
+                    bsonType: 'string',
+                    description: 'Contraseña de 8 a 20 caracteres'
+                },
+                rol: {
+                    bsonType: 'string',
+                    enum: ['Admin', 'Employee', 'Customer', 'Guest']
+                },
+                fecha_creacion: {
+                    bsonType: 'date'
+                },
+                edad: {
+                    bsonType: 'int',
+                    minimum: 18,
+                    maximum: 60
+                },
+                estado: {
+                    bsonType: 'bool'
+                }
+            }
+        }
+    },
+    // validationLevel: 'strict' // Añadido para establecer el nivel de validación
+});

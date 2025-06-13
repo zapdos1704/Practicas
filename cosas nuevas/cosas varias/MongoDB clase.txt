@@ -1,0 +1,16 @@
+Mongo DB Clase
+contraseña cluster primario: aHc5HpfX0A8EZX3D
+
+
+Contraseña segundo cluster: ryHZULbrz47K3uEb
+dirección de cluster secundario: mongodb+srv://ElIngZapatos:ryHZULbrz47K3uEb@clustertallerdb.taxei.mongodb.net/
+	segundo proyecto cluster contraseña: NXub031epL70aaFR
+	dirección segundo proyecto cluster: mongodb+srv://EdgarCortRes:<NXub031epL70aaFR>@clustertallerdb-439.ddhi5.mongodb.net/
+	root-user: vGUAaYqzWPZGKqDG/abcdefg123456
+      ----Configuración de entorno de trabajo con VS Code-----
+1.- Extension Mongo DB for VS Code
+2.- Crear una conexión, click en agregar conexión
+3.- conect with conection string
+4.- abrir el ide mongo db compas
+5.- abrir cmd lo abres en el administrador
+6.- 

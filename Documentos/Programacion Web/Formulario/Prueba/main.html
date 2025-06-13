@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+
+<body>
+    <h2>Formulario de Registro</h2>
+    <form action="#" method="post">
+        <!-- Campo de nombre -->
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <!-- Campo de sexo -->
+        <label>Sexo (Opcional):</label><br>
+        <input type="radio" id="masculino" name="sexo" value="masculino">
+        <label for="masculino">Masculino</label><br>
+        <input type="radio" id="femenino" name="sexo" value="femenino">
+        <label for="femenino">Femenino</label><br><br>
+
+        <!-- Apartado de gustos (deportes) -->
+        <label for="gustos">Gustos (Deportes):</label><br>
+        <input type="checkbox" id="futbol" name="gustos[]" value="futbol">
+        <label for="futbol">Futbol</label><br>
+        <input type="checkbox" id="basketball" name="gustos[]" value="basketball">
+        <label for="basketball">Basketball</label><br>
+        <input type="checkbox" id="extra" name="gustos[]" value="extra">
+        <label for="extra">Extra</label><br>
+        <input type="checkbox" id="acampar" name="gustos[]" value="acampar">
+        <label for="acampar">Acampar</label><br>
+        <input type="checkbox" id="baseball" name="gustos[]" value="baseball">
+        <label for="baseball">Baseball</label><br><br>
+
+        <!-- Fecha de respuesta -->
+        <label for="fecha">Fecha de respuesta:</label><br>
+        <input type="date" id="fecha" name="fecha" required><br><br>
+
+        <!-- Botón de envío -->
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+
+</html>

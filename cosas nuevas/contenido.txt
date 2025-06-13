@@ -1,0 +1,24 @@
+4.3.2 Diseño del Sistema (Cascada)
+4.3.4
+			Dirección General
+                                 |
+         -----------------------------------------
+         |                  |                     |
+Administración        Producción           Ventas y Marketing
+    y Finanzas            |                       |
+     |             ----------------          ----------------
+ Contador/a       Supervisor/a de Prod.     Encargado de Mkt. Digital
+  Auxiliar          Maestros Dulceros       Representantes de Ventas
+                  Ayudantes de Prod.        Atención al Cliente
+                                 |
+                     Logística y Distribución
+                         |              |
+              Coordinador/a       Repartidores
+              de Logística
+
+
+
+formato
+2.2 Diagrama
+Actores tabla
+carta compromiso en anexos

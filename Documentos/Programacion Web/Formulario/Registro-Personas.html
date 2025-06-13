@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Personas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Formulario de Registro de Personas</h2>
+
+    <form id="personForm">
+        <label for="clave">Clave:</label><br>
+        <input type="text" id="clave" required><br>
+
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" required><br>
+
+        <label for="fechaNac">Fecha de Nacimiento:</label><br>
+        <input type="date" id="fechaNac" required><br>
+
+        <label for="edad">Edad:</label><br>
+        <input type="number" id="edad" required><br>
+
+        <button type="submit">Agregar Persona</button>
+    </form>
+
+    <h2>Personas Registradas</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Clave</th>
+                <th>Nombre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Edad</th>
+            </tr>
+        </thead>
+        <tbody id="personTableBody">
+        </tbody>
+    </table>
+
+    <script>
+        let personas = [];
+        const form = document.getElementById('personForm');
+        const claveInput = document.getElementById('clave');
+        const nombreInput = document.getElementById('nombre');
+        const fechaNacInput = document.getElementById('fechaNac');
+        const edadInput = document.getElementById('edad');
+        const tableBody = document.getElementById('personTableBody');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const persona = {
+                clave: claveInput.value,
+                nombre: nombreInput.value,
+                fechaNac: fechaNacInput.value,
+                edad: edadInput.value
+            };
+
+            personas.push(persona);
+            form.reset();
+            actualizarTabla();
+        });
+
+
+        function actualizarTabla() {
+            tableBody.innerHTML = '';
+
+            personas.forEach(function (persona) {
+                const row = document.createElement('tr');
+
+                const claveCell = document.createElement('td');
+                claveCell.textContent = persona.clave;
+
+                const nombreCell = document.createElement('td');
+                nombreCell.textContent = persona.nombre;
+
+                const fechaNacCell = document.createElement('td');
+                fechaNacCell.textContent = persona.fechaNac;
+
+                const edadCell = document.createElement('td');
+                edadCell.textContent = persona.edad;
+
+                row.appendChild(claveCell);
+                row.appendChild(nombreCell);
+                row.appendChild(fechaNacCell);
+                row.appendChild(edadCell);
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+
+</html>

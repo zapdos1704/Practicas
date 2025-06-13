@@ -1,0 +1,36 @@
+//Usar la base de datos
+use("northwind-store")
+
+
+//Crear la conexion de suppliers
+db.createCollection("suppliers", {
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            title: 'Validacion del objeto Suppliers',
+            required: ['email', 'contraseña', 'rol'],
+            properties: {
+                SupplerId: { bsonType: 'int' },
+                CompanyName: { bsonType: 'string' },
+                ContactName: { bsonType: 'string' },
+                Address: {
+                    bsonType: 'object',
+                    required: ['Street', 'City', 'PostalCode', 'Country'],
+                    properties: {
+                        Street: { bsonType: 'string' },
+                        City: { bsonType: 'string' },
+                        Region: { bsonType: 'string' },
+                        PostalCode: { bsonType: 'string' },
+                        Country: { bsonType: 'string' }
+                    }
+                },
+                Phone: {
+                    bsonType: 'array',
+                    minItems: 1,
+                    uniqueItems: true,
+                    items: { bsonType: 'string' }
+                }
+            }
+        }
+    }
+})

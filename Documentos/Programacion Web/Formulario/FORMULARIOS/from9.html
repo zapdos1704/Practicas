@@ -1,0 +1,40 @@
+<HTML>
+
+<HEAD>
+    <TITLE>Formulario con botones Radio</TITLE>
+    <SCRIPT LANGUAGE="JavaScript">
+        function calcular(form, campo) {
+            if (campo == "resultado") {
+                if (form.accion[1].checked) {
+                    form.entrada.value = Math.sqrt(form.resultado.value);
+                } else {
+                    form.entrada.value = form.resultado.value / 2;
+                }
+            } else {
+                if (form.accion[1].checked) {
+                    form.resultado.value = form.entrada.value * form.entrada.value;
+                } else {
+                    form.resultado.value = form.entrada.value * 2;
+                }
+            }
+        }
+    </SCRIPT>
+</HEAD>
+
+<BODY>
+    <FORM METHOD="POST">
+        Valor de Entrada:
+        <INPUT TYPE="text" NAME="entrada" VALUE="0" onchange="calcular(this.form, this.name);">
+        <BR>
+        Acción:
+        <BR>
+        <INPUT TYPE="radio" NAME="accion" VALUE="twice" onclick="calcular(this.form, this.name);"> Doble
+        <BR>
+        <INPUT TYPE="radio" NAME="accion" VALUE="square" onclick="calcular(this.form, this.name);"> Raíz
+        <BR>
+        Resultado:
+        <INPUT TYPE="text" NAME="resultado" VALUE="0" onchange="calcular(this.form, this.name);">
+    </FORM>
+</BODY>
+
+</HTML>

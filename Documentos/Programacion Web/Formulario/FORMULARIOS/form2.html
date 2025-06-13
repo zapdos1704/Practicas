@@ -1,0 +1,28 @@
+<HTML>
+
+<HEAD>
+    <TITLE>Formulario con la forma</TITLE>
+    <SCRIPT LANGUAGE="JavaScript">
+        function calcular(form) {
+            form.resultado.value = eval(form.entrada.value);
+        }
+
+        function getExpresion(form) {
+            form.entrada.blur();
+            form.entrada.value = prompt("Introduce la expresión matemática:", "expresión");
+            calcular(form);
+        }
+    </SCRIPT>
+</HEAD>
+
+<BODY>
+    <FORM METHOD=POST>
+        Introduce una expresión Matemática:
+        <INPUT TYPE="text" NAME="entrada" VALUE="" onchange="calcular(this.form);">
+        <BR>
+        El resultado de la expresión es:
+        <INPUT TYPE="text" NAME="resultado" VALUE="" onFocus="this.blur();">
+    </FORM>
+</BODY>
+
+</HTML>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+    <TITLE> EJEMPLO </TITLE>
+</HEAD>
+
+<BODY>
+    <SCRIPT LANGUAJE="Javascript">
+        alert("Hola Bienvenido...");
+        document.write("Bienvenido como estás <BR><BR> saltando lineas <BR>");
+        document.writeln("&nbsp;&nbsp; Mensaje con salto de linea...");
+        document.writeln("<PRE>Salto una linea...</PRE>");
+        var nom = prompt('Introduce tu nombre:', "Nombre.. aparece");
+        document.write("<H1>Hola como estas: <H2>" + nom + " buenos días<BR>");
+        var sum = prompt("Cuanto es 5+5", "");
+        var correcta = "tu respuesta es correcta";
+        var incorrecta = "tu respuesta es incorrecta";
+        var res = (sum == 10) ? correcta : incorrecta;
+        document.write("La respuesta fue: " + res);
+    </SCRIPT>
+</BODY>
+
+</HTML>

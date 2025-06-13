@@ -1,0 +1,21 @@
+######################################################################
+## NOTE: Do NOT replace this file during release upgrade.
+##       Update the vars to the end of this file instead.
+######################################################################
+## constants from relx template
+REL_VSN="4.4.7"
+ERTS_VSN="12.2.1"
+ERL_OPTS=""
+RUNNER_BIN_DIR="$RUNNER_ROOT_DIR/bin"
+RUNNER_LOG_DIR="$RUNNER_ROOT_DIR/log"
+RUNNER_LIB_DIR="$RUNNER_ROOT_DIR/lib"
+RUNNER_ETC_DIR="$RUNNER_ROOT_DIR/etc"
+RUNNER_DATA_DIR="$RUNNER_ROOT_DIR/data"
+RUNNER_USER=""
+EMQX_DESCRIPTION='EMQ X Broker'
+
+## Warning: DO NOT create new variables using the above vars in this file,
+## as the vars above can be overwritten by the relup scripts later, like:
+## REL_VSN="new_version"
+
+## overwritten vars here

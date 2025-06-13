@@ -1,0 +1,35 @@
+<HTML>
+
+<HEAD>
+    <TITLE>Ejemplo de tabla de multiplicar</TITLE>
+    <SCRIPT LANGUAGE="Javascript">
+        // HIDE FROM OTHER BROWSERS
+        function calcular(form) {
+            var num = 1;
+            var number = form.numero.value;
+
+            for (num = 1; num <= 10; num++) {
+                form.elements[num].value = number * num;
+            }
+        }
+        // STOP HIDING FROM OTHER BROWSERS
+    </SCRIPT>
+</HEAD>
+
+<BODY>
+    <FORM METHOD="POST">
+        Numero: <INPUT TYPE="text" NAME="numero" VALUE="1" onchange="calcular(this.form);"><BR>
+        × 1 = <INPUT TYPE="text" NAME="1" VALUE="1" onFocus="this.blur();"><BR>
+        × 2 = <INPUT TYPE="text" NAME="2" VALUE="2" onFocus="this.blur();"><BR>
+        × 3 = <INPUT TYPE="text" NAME="3" VALUE="3" onFocus="this.blur();"><BR>
+        × 4 = <INPUT TYPE="text" NAME="4" VALUE="4" onFocus="this.blur();"><BR>
+        × 5 = <INPUT TYPE="text" NAME="5" VALUE="5" onFocus="this.blur();"><BR>
+        × 6 = <INPUT TYPE="text" NAME="6" VALUE="6" onFocus="this.blur();"><BR>
+        × 7 = <INPUT TYPE="text" NAME="7" VALUE="7" onFocus="this.blur();"><BR>
+        × 8 = <INPUT TYPE="text" NAME="8" VALUE="8" onFocus="this.blur();"><BR>
+        × 9 = <INPUT TYPE="text" NAME="9" VALUE="9" onFocus="this.blur();"><BR>
+        × 10 = <INPUT TYPE="text" NAME="10" VALUE="10" onFocus="this.blur();"><BR>
+    </FORM>
+</BODY>
+
+</HTML>

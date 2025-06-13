@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # Servicio de PostgreSQL
+  db:
+    image: postgres:14
+    container_name: dulces_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dulces_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dulces-network
+
+  # Servicio de pgAdmin (opcional pero útil para administrar la base de datos)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: dulces_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - dulces-network
+
+  # Servicio de backend API
+  backend:
+    build: ./backend
+    container_name: dulces_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: password
+      DB_NAME: dulces_db
+      NODE_ENV: development
+    networks:
+      - dulces-network
+
+  # Servicio de frontend
+  frontend:
+    build: ./frontend
+    container_name: dulces_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - dulces-network
+
+volumes:
+  postgres_data:
+
+networks:
+  dulces-network:
+    driver: bridge

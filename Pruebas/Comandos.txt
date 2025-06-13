@@ -1,0 +1,4 @@
+npm install cors express mysql2
+npm install nodemon -D
+npm install sequelize
+npm install dotenv

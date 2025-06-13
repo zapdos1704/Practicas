@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Personas</title>
+    <link rel="stylesheet" href="app/style.css">
+</head>
+
+<body>
+    <h2>Formulario de Registro de Personas</h2>
+    <form id="personForm">
+        <label for="clave">Clave:</label><br>
+        <input type="text" id="clave" required><br>
+
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" required><br>
+
+        <label for="fechaNac">Fecha de Nacimiento:</label><br>
+        <input type="date" id="fechaNac" required><br>
+
+        <label for="edad">Edad:</label><br>
+        <input type="number" id="edad" required><br>
+
+        <button type="submit" id="submitButton">Agregar Persona</button>
+        <button type="button" id="cancelButton" style="display:none;">Cancelar Modificación</button>
+    </form>
+
+    <h2>Personas Registradas</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Clave</th>
+                <th>Nombre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="personTableBody"></tbody>
+    </table>
+
+    <button id="saveCsvButton">Guardar en CSV</button>
+    <input type="file" id="csvFileInput" accept=".csv" style="display: inline;">
+    <button id="loadCsvButton">Cargar desde CSV</button>
+
+    <script src="app/model.js"></script>
+    <script src="app/view.js"></script>
+    <script src="app/controller.js"></script>
+    <script>
+        // Inicializar el controlador después de cargar todos los módulos
+        Controller.init();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+//Usar la base de datos
+use("northwind-store")
+
+//Insertar el documento en la Coleccion Usuarios
+db.suppliers.insertOne({
+    SupplerId: 1000,
+    CompanyName: 'ITJ-Jiquilpan',
+    ContactName: 'Octavio Ramirez Rojas',
+    Address: {
+        Street: 'Carretera Nacional S/N Km. 202',
+        City: 'Jiquilpan',
+        Region: 'Centro Occidente',
+        PostalCode: '59510',
+        Country: 'Mexico'
+    },
+    Phone: ['353 53 3 1126']
+})

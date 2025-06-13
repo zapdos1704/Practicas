@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario con API Georef México</title>
+    <script>
+        // Función para obtener los estados desde la API de Georef México
+        async function obtenerEstados() {
+            try {
+                const respuesta = await fetch('https://gaia.inegi.org.mx/wscatgeo/v2/mgee/');
+                if (!respuesta.ok) {
+                    throw new Error('Error al obtener los estados');
+                }
+                const datos = await respuesta.json();
+                return datos.datos; // Array de objetos con {cve_ent, nomgeo}
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        }
+
+        // Llenar el dropdown de estados usando datos de la API
+        async function cargarEstados() {
+            const estados = await obtenerEstados();
+            const estadoSelect = document.getElementById('estado');
+            // Limpiar dropdown por si ya tiene opciones cargadas
+            estadoSelect.innerHTML = '<option value="">Selecciona un estado</option>';
+            estados.forEach(estado => {
+                const option = document.createElement('option');
+                option.value = estado.cve_ent;
+                option.textContent = estado.nomgeo;
+                estadoSelect.appendChild(option);
+            });
+        }
+
+        // Función para obtener los municipios basado en un estado desde la API de Georef México
+        async function obtenerCiudades(cve_ent) {
+            try {
+                const respuesta = await fetch(`https://gaia.inegi.org.mx/wscatgeo/v2/mgem/${cve_ent}`);
+                if (!respuesta.ok) {
+                    throw new Error('Error al obtener las ciudades');
+                }
+                const datos = await respuesta.json();
+                return datos.datos; // Array de objetos con {cve_mun, nomgeo}
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        }
+
+        // Llenar el dropdown de ciudades basado en el estado seleccionado
+        async function cargarCiudades() {
+            const cve_ent = document.getElementById('estado').value;
+            const ciudadSelect = document.getElementById('ciudad');
+            // Limpiar ciudades anteriores
+            ciudadSelect.innerHTML = '<option value="">Selecciona una ciudad</option>';
+            if (cve_ent) {
+                const ciudades = await obtenerCiudades(cve_ent);
+                ciudades.forEach(ciudad => {
+                    const option = document.createElement('option');
+                    option.textContent = ciudad.nomgeo;
+                    ciudadSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Al cargar la página, inicializamos los estados
+        window.onload = function () {
+            cargarEstados();
+        };
+    </script>
+</head>
+
+<body>
+    <h2>Formulario de Registro</h2>
+    <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+        <label for="estado">Selecciona tu Estado:</label>
+        <select id="estado" name="estado" onchange="cargarCiudades()" required>
+            <option value="">Selecciona un estado</option>
+        </select><br><br>
+        <label for="ciudad">Selecciona tu Ciudad:</label>
+        <select id="ciudad" name="ciudad" required>
+            <option value="">Selecciona una ciudad</option>
+        </select><br><br>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+
+</html>

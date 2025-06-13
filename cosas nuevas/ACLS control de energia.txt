@@ -1,0 +1,21 @@
+-Acceso total a todos los dispositivos y métricas
+1, NULL, 'admin', NULL, 3, '/smartHome/#'
+
+-Solo puede leer el estado (no controlar nada)
+1, NULL, 'invitado', NULL, 1, '/smartHome/+/+/status'
+1, NULL, 'invitado', NULL, 1, '/smartHome/+/+/consumo'
+
+-Denegar publicaciones
+0, NULL, 'invitado', NULL, 2, '/smartHome/#'
+
+-Solo lectura de datos de consumo, logs y errores
+1, NULL, 'tecnico', NULL, 1, '/smartHome/+/+/consumo'
+1, NULL, 'tecnico', NULL, 1, '/smartHome/system/logs'
+1, NULL, 'tecnico', NULL, 1, '/smartHome/general/alertas'
+
+-Solo puede leer estados y encender/apagar dispositivos
+1, NULL, 'asistente', NULL, 3, '/smartHome/+/+/power'
+1, NULL, 'asistente', NULL, 1, '/smartHome/+/+/status'
+
+-Negar acceso a todos los demás usuarios desconocidos
+0, NULL, '$all', NULL, 1, '/smartHome/#'

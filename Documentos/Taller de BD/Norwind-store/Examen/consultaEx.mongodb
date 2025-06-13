@@ -1,0 +1,32 @@
+use("Dulceria")
+
+db.orders.find(
+  {}
+)
+
+use("Dulceria")
+
+db.orders.find(
+  { "Ordenes.Customer_Name": "Tobie Little" }
+)
+
+use("Dulceria")
+
+db.orders.find(
+  { "Ordenes.Staff_Name": "Kali Vargas" },
+  { "Ordenes.order_id": 1, "Ordenes.subtotal": 1, "_id": 0 }
+)
+
+use("Dulceria")
+
+db.orders.find(
+  { "Ordenes.Staff_Name": "Layla Terrell" },
+  {}
+)
+
+use("Dulceria")
+
+db.orders.find(
+  { "Ordenes.order_id": 250 },
+  { "Ordenes.product_id": 1, "Ordenes.product_name": 1, "Ordenes.quantity": 1, "Ordenes.subtotal": 1, "_id": 0 }
+)

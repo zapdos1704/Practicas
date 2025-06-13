@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Selecciona un archivo de texto (.txt)</h2>
+    <textarea id="content" rows="10" cols="30" placeholder="Escriba algo aqui..."></textarea><br><br>
+    <button onclick="saveToFile()">Guardar en Archivo</button>
+    <input type="file" id="fileInput" accept=".txt">
+
+    <script>
+        function saveToFile() {
+            // Obtenemos el contenido del textarea
+            var content = document.getElementById("content").value;
+            // Creamos un blob de tipo texto
+            var blob = new Blob([content], { type: "text/plain" });
+            // Creamos un enlace temporal para descargar el archivo
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "archivo.txt"; // Nombre del archivo
+            // Simulamos un clic en el enlace para iniciar la descarga
+            link.click();
+            // Limpiamos el enlace temporal
+            window.URL.revokeObjectURL(link.href);
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            var file = event.target.files[0]; // Obtenemos el archivo
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // Mostramos el contenido en el elemento <pre>
+                    document.getElementById('content').value = e.target.result;
+                };
+                reader.readAsText(file); // Leemos el archivo como texto
+            }
+        });
+    </script>
+</body>
+
+</html>

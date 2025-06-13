@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado 6.9 Formulario Interactivo</title>
+    <script>
+        function limpiarcampo(field) {
+            // Verifica si el campo tiene el valor por defecto
+            if (field.value === field.defaultValue) {
+                // Limpia el campo
+                field.value = "";
+            }
+        }
+
+        function checarcampo(field) {
+            if (field.value === "") {
+                field.value = field.defaultValue;
+            }
+        }
+
+        function Mayuscula(form) {
+            var texto = form.cuadroTexto.value;
+            form.cuadroTexto.value = texto.toUpperCase();
+        }
+    </script>
+</head>
+
+<body>
+    <form>
+        <input type="text" name="cuadroTexto" value="Texto por defecto" onfocus="limpiarcampo(this);"
+            onblur="checarcampo(this);">
+        <br>
+        <input type="button" value="Convertir a Mayúsculas" onclick="Mayuscula(this.form);">
+    </form>
+</body>
+
+</html>

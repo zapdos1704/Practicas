@@ -1,0 +1,29 @@
+<HTML>
+
+<HEAD>
+    <TITLE>PROGRAMA DE FORMULARIO LIBRO</TITLE>
+    <SCRIPT LANGUAGE="Javascript">
+        function calcular(form) {
+            form.porDos.value = form.nEntrada.value * 2;
+            form.cuadrado.value = form.nEntrada.value * form.nEntrada.value;
+        }
+    </SCRIPT>
+</HEAD>
+
+<BODY>
+    <FORM METHOD=POST>
+        Valor:
+        <BR>
+        <INPUT TYPE="text" NAME="nEntrada" VALUE="0" onchange="calcular(this.form);">
+        <BR>
+        Doble:
+        <INPUT TYPE="text" NAME="porDos" VALUE="0"
+            onchange="this.form.nEntrada.value=this.value/2; calcular(this.form);">
+        <BR>
+        Cuadrado:
+        <INPUT TYPE="text" NAME="cuadrado" VALUE="0"
+            onchange="this.form.nEntrada.value=Math.sqrt(this.value); calcular(this.form);">
+    </FORM>
+</BODY>
+
+</HTML>

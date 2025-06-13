@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardar JSON en un archivo</title>
+</head>
+
+<body>
+    <h2>Guardar Datos JSON en un Archivo</h2>
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" required>
+    <br>
+    <label for="edad">Edad:</label>
+    <input type="number" id="edad" required>
+    <br>
+    <label for="ciudad">Ciudad:</label>
+    <input type="text" id="ciudad" required>
+    <br><br>
+    <button onclick="saveJSON()">Guardar JSON</button>
+
+    <script>
+        function saveJSON() {
+            // Obtenemos los valores de los campos de entrada
+            var nombre = document.getElementById("nombre").value;
+            var edad = parseInt(document.getElementById("edad").value);
+            var ciudad = document.getElementById("ciudad").value;
+
+            // Creamos un objeto JSON con los datos ingresados
+            var data = {
+                nombre: nombre,
+                edad: edad,
+                ciudad: ciudad
+            };
+
+            // Convertimos el objeto a una cadena JSON
+            var json = JSON.stringify(data, null, 2); // "null, 2" es para que tenga formato legible
+            var blob = new Blob([json], { type: "application/json" });
+
+            // Creamos un enlace temporal para descargar el archivo
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "datos.json"; // Nombre del archivo
+            link.click(); // Simulamos un clic en el enlace para iniciar la descarga
+            window.URL.revokeObjectURL(link.href); // Limpiamos el enlace temporal
+        }
+    </script>
+</body>
+
+</html>

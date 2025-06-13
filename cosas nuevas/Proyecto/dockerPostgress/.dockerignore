@@ -1,0 +1,16 @@
+
+node_modules
+npm - debug.log *
+	yarn - debug.log *
+	yarn - error.log *
+	git
+		.gitignore
+README.md
+Dockerfile
+docker - compose.yml
+	.dockerignore
+	.nyc_output
+coverage
+	.coverage
+logs
+	.log

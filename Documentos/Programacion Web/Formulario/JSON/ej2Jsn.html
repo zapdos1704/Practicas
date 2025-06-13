@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Selecciona un archivo JSON</h2>
+    <input type="file" id="fileInput" accept="application/json">
+    <br>
+    <label for="nombre">Nombre:</label>
+    <span class="nombre"></span>
+    <br>
+    <label for="edad">Edad:</label>
+    <span class="Edad"></span>
+    <br>
+    <label for="ciudad">Ciudad:</label>
+    <span class="ciudad" textContent="das"></span>
+    <br><br>
+    <script>
+        var nombre = document.getElementsByClassName('nombre')
+        var edad = document.getElementsByClassName('Edad')
+        var ciudad = document.getElementsByClassName('ciudad')
+
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            var file = event.target.files[0]; // Obtenemos el archivo
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // Convertimos y mostramos el JSON en el elemento <pre>
+                    var json = JSON.parse(e.target.result);
+                    var datos = JSON.stringify(json, null, 2);
+                    console.log(datos)
+                    nombre.textContent = datos.nombre
+                };
+                reader.readAsText(file); // Leemos el archivo como texto
+            }
+        });
+    </script>
+</body>
+
+</html>

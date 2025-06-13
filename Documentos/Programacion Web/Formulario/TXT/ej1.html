@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardar Información en un Archivo</title>
+</head>
+
+<body>
+    <h2>Guardar Datos en un Archivo de Texto</h2>
+    <textarea id="content" rows="10" cols="30">Escribe algo aquí...</textarea><br><br>
+    <button onclick="saveToFile()">Guardar en Archivo</button>
+
+    <script>
+        function saveToFile() {
+            // Obtenemos el contenido del textarea
+            var content = document.getElementById("content").value;
+            // Creamos un blob de tipo texto
+            var blob = new Blob([content], { type: "text/plain" });
+            // Creamos un enlace temporal para descargar el archivo
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "archivo.txt"; // Nombre del archivo
+            // Simulamos un clic en el enlace para iniciar la descarga
+            link.click();
+            // Limpiamos el enlace temporal
+            window.URL.revokeObjectURL(link.href);
+        }
+    </script>
+</body>
+
+</html>
